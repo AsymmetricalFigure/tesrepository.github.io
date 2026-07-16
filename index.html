@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UTM Facility Dashboard</title>
+  <title>Rough sketch</title>
   <meta name="description" content="Dashboard pemilihan lantai, ruang, dan utility Gedung UTM" />
 
   <style>
@@ -771,12 +771,37 @@
       background: var(--surface);
       color: var(--muted);
       font-weight: 900;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        transform .14s ease,
+        border-color .14s ease,
+        background .14s ease,
+        color .14s ease,
+        box-shadow .14s ease;
+    }
+
+    .choice-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), .08);
+      transform: translateY(-1px);
+    }
+
+    .choice-btn:active {
+      transform: scale(.96);
+    }
+
+    .choice-btn:focus-visible {
+      outline: 3px solid rgba(var(--accent-rgb), .22);
+      outline-offset: 2px;
     }
 
     .choice-btn.selected {
       color: white;
       border-color: var(--accent);
       background: var(--accent);
+      box-shadow: 0 7px 16px rgba(var(--accent-rgb), .24);
     }
 
     .save-bar {
@@ -1330,10 +1355,12 @@
                 <div class="choice-group">
                   <button class="choice-btn ${currentChoices[utility] === "PM" ? "selected" : ""}"
                           type="button"
+                          aria-pressed="${currentChoices[utility] === "PM"}"
                           data-utility="${utility}"
                           data-choice="PM">PM</button>
                   <button class="choice-btn ${currentChoices[utility] === "HC" ? "selected" : ""}"
                           type="button"
+                          aria-pressed="${currentChoices[utility] === "HC"}"
                           data-utility="${utility}"
                           data-choice="HC">HC</button>
                 </div>
@@ -1352,8 +1379,19 @@
 
       document.querySelectorAll(".choice-btn").forEach((button) => {
         button.addEventListener("click", () => {
-          currentChoices[button.dataset.utility] = button.dataset.choice;
-          renderUtilitiesPage(currentFloor, currentRoom);
+          const utility = button.dataset.utility;
+          const choice = button.dataset.choice;
+          const row = button.closest(".utility-row");
+
+          currentChoices[utility] = choice;
+
+          row.querySelectorAll(".choice-btn").forEach((optionButton) => {
+            const isSelected = optionButton.dataset.choice === choice;
+            optionButton.classList.toggle("selected", isSelected);
+            optionButton.setAttribute("aria-pressed", String(isSelected));
+          });
+
+          document.getElementById("selectionSummary").textContent = getSelectionSummary();
         });
       });
 
