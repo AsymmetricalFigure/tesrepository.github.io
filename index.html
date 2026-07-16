@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rough sketch</title>
-  <meta name="description" content="Dashboard pemilihan lantai, ruang, dan utility Gedung UTM" />
+  <meta
+    name="description"
+    content="Dashboard inspeksi utility Gedung UTM dengan alur lantai, ruang, utility, PM/HC, dan submit."
+  />
+  <title>UTM Facility Dashboard</title>
 
   <style>
     :root {
@@ -18,6 +21,8 @@
       --accent-rgb: 34, 160, 96;
       --accent-dark: #187a48;
       --danger: #dc4c4c;
+      --success: #1f9d68;
+      --warning: #c68516;
       --shadow: 0 18px 50px rgba(23, 32, 51, 0.11);
       --soft-shadow: 0 8px 24px rgba(23, 32, 51, 0.07);
     }
@@ -44,16 +49,23 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(var(--accent-rgb), 0.15), transparent 28rem),
+        radial-gradient(
+          circle at top left,
+          rgba(var(--accent-rgb), 0.15),
+          transparent 28rem
+        ),
         var(--bg);
-      transition: background .25s ease, color .25s ease;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
     button,
-    input {
+    input,
+    select,
+    textarea {
       font: inherit;
     }
 
@@ -93,7 +105,11 @@
       flex-direction: column;
       justify-content: space-between;
       background:
-        linear-gradient(135deg, rgba(12, 22, 31, .94), rgba(15, 90, 60, .84)),
+        linear-gradient(
+          135deg,
+          rgba(12, 22, 31, 0.94),
+          rgba(15, 90, 60, 0.84)
+        ),
         #173d2e;
     }
 
@@ -109,7 +125,7 @@
       height: 400px;
       right: -140px;
       top: 120px;
-      background: rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, 0.12);
     }
 
     .login-visual::after {
@@ -117,7 +133,7 @@
       height: 280px;
       left: -80px;
       bottom: -60px;
-      background: rgba(55, 226, 148, .17);
+      background: rgba(55, 226, 148, 0.17);
     }
 
     .brand {
@@ -127,7 +143,7 @@
       align-items: center;
       gap: 12px;
       font-weight: 900;
-      letter-spacing: -.3px;
+      letter-spacing: -0.3px;
     }
 
     .brand-mark {
@@ -138,7 +154,7 @@
       place-items: center;
       background: white;
       color: #198154;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, .16);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
     }
 
     .visual-copy {
@@ -152,22 +168,22 @@
       display: inline-block;
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .2);
-      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
       font-size: 13px;
     }
 
     .visual-copy h1 {
       margin: 22px 0 16px;
       font-size: clamp(42px, 6vw, 76px);
-      line-height: .98;
+      line-height: 0.98;
       letter-spacing: -3px;
     }
 
     .visual-copy p {
       max-width: 560px;
       margin: 0;
-      color: rgba(255, 255, 255, .76);
+      color: rgba(255, 255, 255, 0.76);
       line-height: 1.7;
       font-size: 17px;
     }
@@ -183,8 +199,8 @@
     .visual-stat {
       padding: 18px;
       border-radius: 17px;
-      background: rgba(255, 255, 255, .08);
-      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       backdrop-filter: blur(12px);
     }
 
@@ -195,7 +211,7 @@
     }
 
     .visual-stat small {
-      color: rgba(255, 255, 255, .66);
+      color: rgba(255, 255, 255, 0.66);
     }
 
     .login-side {
@@ -218,13 +234,13 @@
       padding: 34px;
       border-radius: 26px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, .88);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(22px);
       box-shadow: var(--shadow);
     }
 
     [data-theme="dark"] .login-card {
-      background: rgba(22, 30, 46, .9);
+      background: rgba(22, 30, 46, 0.9);
     }
 
     .login-card h2 {
@@ -296,7 +312,7 @@
 
     .input-wrap input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .12);
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.12);
     }
 
     .password-toggle {
@@ -327,7 +343,7 @@
       color: white;
       background: linear-gradient(135deg, var(--accent), var(--accent-dark));
       font-weight: 900;
-      box-shadow: 0 14px 28px rgba(var(--accent-rgb), .25);
+      box-shadow: 0 14px 28px rgba(var(--accent-rgb), 0.25);
     }
 
     .message {
@@ -342,7 +358,7 @@
       color: var(--danger);
     }
 
-    /* APP */
+    /* DASHBOARD SHELL */
     .dashboard {
       min-height: 100vh;
       display: grid;
@@ -376,7 +392,7 @@
       margin-bottom: 18px;
       border: 1px solid var(--border);
       border-radius: 16px;
-      background: rgba(var(--accent-rgb), .07);
+      background: rgba(var(--accent-rgb), 0.07);
     }
 
     .user-block small {
@@ -415,7 +431,7 @@
     .nav-item.active,
     .nav-item:hover {
       color: var(--accent);
-      background: rgba(var(--accent-rgb), .1);
+      background: rgba(var(--accent-rgb), 0.1);
     }
 
     .sidebar-footer {
@@ -442,7 +458,7 @@
       min-height: 74px;
       padding: 0 26px;
       border-bottom: 1px solid var(--border);
-      background: rgba(255, 255, 255, .78);
+      background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(18px);
       display: flex;
       align-items: center;
@@ -453,7 +469,7 @@
     }
 
     [data-theme="dark"] .topbar {
-      background: rgba(22, 30, 46, .8);
+      background: rgba(22, 30, 46, 0.8);
     }
 
     .topbar-left {
@@ -508,6 +524,7 @@
       padding: 26px;
     }
 
+    /* COMMON PAGE */
     .breadcrumb {
       display: flex;
       flex-wrap: wrap;
@@ -530,7 +547,11 @@
       padding: 26px;
       border-radius: 22px;
       color: white;
-      background: linear-gradient(135deg, rgba(var(--accent-rgb), .98), rgba(var(--accent-rgb), .76));
+      background: linear-gradient(
+        135deg,
+        rgba(var(--accent-rgb), 0.98),
+        rgba(var(--accent-rgb), 0.76)
+      );
       box-shadow: var(--soft-shadow);
       position: relative;
       overflow: hidden;
@@ -545,7 +566,7 @@
       right: -60px;
       top: -90px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, 0.12);
     }
 
     .page-head h1 {
@@ -560,7 +581,7 @@
       position: relative;
       z-index: 1;
       margin: 0;
-      color: rgba(255, 255, 255, .8);
+      color: rgba(255, 255, 255, 0.82);
       line-height: 1.6;
     }
 
@@ -600,6 +621,10 @@
       padding: 20px;
     }
 
+    .card + .card {
+      margin-top: 18px;
+    }
+
     .card-head {
       display: flex;
       justify-content: space-between;
@@ -617,29 +642,54 @@
       margin: 5px 0 0;
       color: var(--muted);
       font-size: 12px;
+      line-height: 1.5;
     }
 
+    .back-btn {
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* FLOOR / ROOM */
     .floor-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 12px;
     }
 
-    .floor-card {
-      min-height: 112px;
+    .floor-card,
+    .room-card,
+    .utility-card,
+    .maintenance-card {
       border: 1px solid var(--border);
-      border-radius: 16px;
       background: var(--surface-soft);
       color: var(--text);
-      padding: 16px;
       text-align: left;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
-    .floor-card:hover {
+    .floor-card:hover,
+    .room-card:hover,
+    .utility-card:hover,
+    .maintenance-card:hover {
       transform: translateY(-3px);
       border-color: var(--accent);
       box-shadow: var(--soft-shadow);
+    }
+
+    .floor-card {
+      min-height: 112px;
+      border-radius: 16px;
+      padding: 16px;
     }
 
     .floor-number {
@@ -649,19 +699,21 @@
       display: grid;
       place-items: center;
       margin-bottom: 13px;
-      background: rgba(var(--accent-rgb), .12);
+      background: rgba(var(--accent-rgb), 0.12);
       color: var(--accent);
       font-weight: 1000;
     }
 
     .floor-card strong,
-    .room-card strong {
+    .room-card strong,
+    .utility-card strong {
       display: block;
       margin-bottom: 4px;
     }
 
     .floor-card small,
-    .room-card small {
+    .room-card small,
+    .utility-card small {
       color: var(--muted);
     }
 
@@ -674,29 +726,23 @@
     .room-card {
       min-height: 180px;
       padding: 22px;
-      border: 1px solid var(--border);
       border-radius: 18px;
-      background: var(--surface-soft);
-      color: var(--text);
-      text-align: left;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
     }
 
-    .room-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--accent);
-      box-shadow: var(--soft-shadow);
+    .room-icon,
+    .utility-icon,
+    .maintenance-icon {
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.12);
     }
 
     .room-icon {
       width: 52px;
       height: 52px;
       border-radius: 15px;
-      display: grid;
-      place-items: center;
       margin-bottom: 18px;
-      color: var(--accent);
-      background: rgba(var(--accent-rgb), .12);
       font-size: 22px;
     }
 
@@ -711,119 +757,291 @@
       font-size: 13px;
     }
 
-    .back-btn {
-      min-height: 42px;
-      padding: 0 15px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--surface);
+    /* UTILITY LIST */
+    .utility-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .utility-card {
+      min-height: 188px;
+      padding: 18px;
+      border-radius: 17px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .utility-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .utility-card strong {
+      font-size: 17px;
+    }
+
+    .utility-card p {
+      margin: 8px 0 16px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 12px;
+    }
+
+    .last-update {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .last-update b {
       color: var(--text);
-      font-weight: 800;
     }
 
-    .utility-list {
+    /* UTILITY DETAIL */
+    .detail-layout {
       display: grid;
-      gap: 12px;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 18px;
+      align-items: start;
     }
 
-    .utility-row {
+    .spec-list {
       display: grid;
-      grid-template-columns: 52px 1fr auto;
-      gap: 12px;
-      align-items: center;
-      padding: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .spec-item {
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .spec-item span {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .spec-item strong {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .source-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .updated-panel {
+      padding: 18px;
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
+      border-radius: 16px;
+      background: rgba(var(--accent-rgb), 0.08);
+    }
+
+    .updated-panel span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .updated-panel strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .maintenance-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .maintenance-card {
+      min-height: 178px;
+      padding: 20px;
+      border-radius: 17px;
+    }
+
+    .maintenance-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-weight: 1000;
+    }
+
+    .maintenance-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 20px;
+    }
+
+    .maintenance-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* CHECKLIST */
+    .checklist {
+      display: grid;
+      gap: 15px;
+    }
+
+    .question {
+      padding: 17px;
       border: 1px solid var(--border);
       border-radius: 15px;
       background: var(--surface-soft);
     }
 
-    .utility-letter {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      color: var(--accent);
-      background: rgba(var(--accent-rgb), .12);
-      font-weight: 1000;
-    }
-
-    .utility-info strong {
+    .question label {
       display: block;
+      margin-bottom: 9px;
       font-size: 13px;
+      font-weight: 850;
+      line-height: 1.5;
     }
 
-    .utility-info small {
-      color: var(--muted);
+    .required {
+      color: var(--danger);
     }
 
-    .choice-group {
-      display: inline-grid;
-      grid-template-columns: repeat(2, minmax(58px, 1fr));
-      gap: 8px;
-    }
-
-    .choice-btn {
-      min-height: 40px;
-      padding: 0 14px;
+    .question input,
+    .question select,
+    .question textarea {
+      width: 100%;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 11px;
       background: var(--surface);
-      color: var(--muted);
-      font-weight: 900;
-      cursor: pointer;
-      user-select: none;
-      transition:
-        transform .14s ease,
-        border-color .14s ease,
-        background .14s ease,
-        color .14s ease,
-        box-shadow .14s ease;
+      color: var(--text);
+      outline: none;
     }
 
-    .choice-btn:hover {
-      color: var(--accent);
+    .question input,
+    .question select {
+      min-height: 46px;
+      padding: 0 13px;
+    }
+
+    .question textarea {
+      min-height: 110px;
+      padding: 12px 13px;
+      resize: vertical;
+    }
+
+    .question input:focus,
+    .question select:focus,
+    .question textarea:focus {
       border-color: var(--accent);
-      background: rgba(var(--accent-rgb), .08);
-      transform: translateY(-1px);
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.1);
     }
 
-    .choice-btn:active {
-      transform: scale(.96);
-    }
-
-    .choice-btn:focus-visible {
-      outline: 3px solid rgba(var(--accent-rgb), .22);
-      outline-offset: 2px;
-    }
-
-    .choice-btn.selected {
-      color: white;
-      border-color: var(--accent);
-      background: var(--accent);
-      box-shadow: 0 7px 16px rgba(var(--accent-rgb), .24);
-    }
-
-    .save-bar {
+    .form-actions {
       display: flex;
       justify-content: space-between;
+      gap: 12px;
       align-items: center;
-      gap: 14px;
       margin-top: 18px;
-      padding-top: 17px;
+      padding-top: 18px;
       border-top: 1px solid var(--border);
     }
 
-    .save-bar span {
+    .form-actions p {
+      margin: 0;
       color: var(--muted);
       font-size: 12px;
     }
 
-    .save-btn {
-      min-height: 44px;
-      padding: 0 18px;
+    .submit-btn {
+      min-height: 46px;
+      padding: 0 22px;
       border: 0;
       border-radius: 12px;
+      color: white;
+      background: var(--accent);
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.22);
+    }
+
+    /* SUCCESS */
+    .success-wrap {
+      min-height: calc(100vh - 126px);
+      display: grid;
+      place-items: center;
+    }
+
+    .success-card {
+      width: min(100%, 620px);
+      padding: 42px 30px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .success-icon {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--success);
+      font-size: 34px;
+      font-weight: 1000;
+      box-shadow: 0 14px 30px rgba(31, 157, 104, 0.24);
+    }
+
+    .success-card h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 48px);
+      letter-spacing: -1.5px;
+    }
+
+    .success-card p {
+      margin: 0 auto;
+      max-width: 470px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .submission-info {
+      margin: 22px 0;
+      padding: 15px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .submission-info strong {
+      color: var(--text);
+    }
+
+    .return-btn {
+      min-height: 48px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 13px;
       color: white;
       background: var(--accent);
       font-weight: 900;
@@ -859,6 +1077,14 @@
       .floor-grid {
         grid-template-columns: repeat(4, 1fr);
       }
+
+      .utility-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 760px) {
@@ -871,7 +1097,7 @@
         left: 0;
         transform: translateX(-105%);
         width: 255px;
-        transition: transform .25s ease;
+        transition: transform 0.25s ease;
         box-shadow: var(--shadow);
       }
 
@@ -907,26 +1133,25 @@
         padding: 23px;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
+      .stats-grid,
       .floor-grid,
-      .room-grid {
+      .room-grid,
+      .utility-grid,
+      .maintenance-grid,
+      .spec-list {
         grid-template-columns: 1fr;
       }
 
-      .utility-row {
-        grid-template-columns: 44px 1fr;
-      }
-
-      .choice-group {
-        grid-column: 2;
-      }
-
-      .save-bar {
+      .card-head,
+      .form-actions {
         flex-direction: column;
         align-items: stretch;
+      }
+
+      .back-btn,
+      .submit-btn,
+      .return-btn {
+        width: 100%;
       }
     }
   </style>
@@ -942,10 +1167,11 @@
 
       <div class="visual-copy">
         <span>Facility & Utility Management</span>
-        <h1>Satu pilihan, satu halaman.</h1>
+        <h1>Inspeksi utility, tanpa labirin formulir.</h1>
         <p>
-          Pilih lantai, masuk ke halaman lantai, pilih ruang, lalu atur utility.
-          Alurnya sekarang lebih rapi dan tidak menumpuk semua hal dalam satu layar seperti gudang kabel.
+          Pilih lantai, ruang, utility, pekerjaan PM atau HC, isi checklist,
+          lalu submit. Sebuah alur yang cukup masuk akal, suatu pencapaian langka
+          bagi aplikasi operasional.
         </p>
       </div>
 
@@ -955,12 +1181,12 @@
           <small>Total lantai</small>
         </div>
         <div class="visual-stat">
-          <strong>34</strong>
-          <small>Total ruang</small>
+          <strong>2</strong>
+          <small>Ruang per lantai</small>
         </div>
         <div class="visual-stat">
-          <strong>5</strong>
-          <small>Utility per ruang</small>
+          <strong>8</strong>
+          <small>Kategori utility AC</small>
         </div>
       </div>
     </aside>
@@ -996,7 +1222,11 @@
           <div class="field">
             <label for="username">Username</label>
             <div class="input-wrap">
-              <input id="username" autocomplete="username" placeholder="Contoh: userUTM" />
+              <input
+                id="username"
+                autocomplete="username"
+                placeholder="Contoh: userUTM"
+              />
             </div>
             <div id="usernameError" class="error-text"></div>
           </div>
@@ -1004,8 +1234,20 @@
           <div class="field">
             <label for="password">Password</label>
             <div class="input-wrap">
-              <input id="password" type="password" autocomplete="current-password" placeholder="Masukkan password" />
-              <button id="passwordToggle" class="password-toggle" type="button" aria-label="Tampilkan password">◉</button>
+              <input
+                id="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Masukkan password"
+              />
+              <button
+                id="passwordToggle"
+                class="password-toggle"
+                type="button"
+                aria-label="Tampilkan password"
+              >
+                ◉
+              </button>
             </div>
             <div id="passwordError" class="error-text"></div>
           </div>
@@ -1042,7 +1284,13 @@
     <div class="main">
       <header class="topbar">
         <div class="topbar-left">
-          <button id="menuButton" class="icon-btn menu-btn" aria-label="Buka menu">☰</button>
+          <button
+            id="menuButton"
+            class="icon-btn menu-btn"
+            aria-label="Buka menu"
+          >
+            ☰
+          </button>
           <div>
             <h3 id="dashboardTitle">Dashboard UTM</h3>
             <p id="currentDate"></p>
@@ -1066,6 +1314,33 @@
   <div id="toast" class="toast hidden"></div>
 
   <script>
+
+    const memoryStorage = new Map();
+
+    const storage = {
+      getItem(key) {
+        try {
+          return window.storage.getItem(key);
+        } catch (error) {
+          return memoryStorage.has(key) ? memoryStorage.get(key) : null;
+        }
+      },
+      setItem(key, value) {
+        try {
+          window.storage.setItem(key, String(value));
+        } catch (error) {
+          memoryStorage.set(key, String(value));
+        }
+      },
+      removeItem(key) {
+        try {
+          window.storage.removeItem(key);
+        } catch (error) {
+          memoryStorage.delete(key);
+        }
+      }
+    };
+
     const USERS = {
       userG: {
         password: "user123",
@@ -1074,8 +1349,7 @@
         accentDark: "#a72f2f",
         title: "Dashboard G",
         role: "Operator G",
-        initial: "G",
-        label: "Area G"
+        initial: "G"
       },
       userUTM: {
         password: "user123",
@@ -1084,8 +1358,7 @@
         accentDark: "#187a48",
         title: "Dashboard UTM",
         role: "Operator UTM",
-        initial: "U",
-        label: "Gedung UTM"
+        initial: "U"
       },
       userSDA: {
         password: "user123",
@@ -1094,29 +1367,209 @@
         accentDark: "#2457a8",
         title: "Dashboard SDA",
         role: "Operator SDA",
-        initial: "S",
-        label: "Area SDA"
+        initial: "S"
       }
     };
 
-    const UTILITIES = ["A", "B", "C", "D", "E"];
     const ROOMS = [
       {
         name: "Ruang Chiller",
         icon: "❄",
-        description: "Ruang utama untuk utility dan pekerjaan pemeliharaan."
+        description:
+          "Ruang utama untuk utility dan pekerjaan pemeliharaan."
       },
       {
         name: "Dummy",
         icon: "□",
-        description: "Ruang cadangan untuk simulasi atau pengujian."
+        description:
+          "Ruang cadangan untuk simulasi, pengujian, atau pencatatan sementara."
       }
     ];
+
+    /*
+      Daftar utility diambil dan diringkas dari workbook "9. AC.xlsx".
+      Sheet duplikat "Copy of AHU" tidak ditampilkan sebagai kategori terpisah.
+    */
+    const UTILITIES = [
+      {
+        id: "chiller-1",
+        name: "Chiller 1",
+        icon: "❄",
+        summary: "MECQUAY 236 TR, lokasi referensi Basement.",
+        assetCount: "1 unit",
+        profile: "chiller",
+        specs: [
+          ["Merek / Kapasitas", "MECQUAY (236 TR)"],
+          ["Model", "PFS245.1"],
+          ["Lokasi Referensi", "Basement"],
+          ["Jumlah", "1 unit"],
+          ["Daya", "831,1 kW"],
+          ["Power Input", "144,7 kW"],
+          ["Tegangan", "380 Volt"],
+          ["Berat", "5117 Kg"]
+        ]
+      },
+      {
+        id: "chiller-2",
+        name: "Chiller 2",
+        icon: "❄",
+        summary: "MCQUAY 236 TR, lokasi referensi Basement.",
+        assetCount: "1 unit",
+        profile: "chiller",
+        specs: [
+          ["Merek / Kapasitas", "MCQUAY (236 TR)"],
+          ["Model", "PFS245.1"],
+          ["Lokasi Referensi", "Basement"],
+          ["Jumlah", "1 unit"],
+          ["Daya", "831,1 kW"],
+          ["Power Input", "144,7 kW"],
+          ["Tegangan", "380 Volt"],
+          ["Berat", "5117 Kg"]
+        ]
+      },
+      {
+        id: "cwp-chwp",
+        name: "CWP - CHWP",
+        icon: "↻",
+        summary: "Empat pompa cooling dan chilled water di Basement.",
+        assetCount: "4 unit",
+        profile: "pump",
+        specs: [
+          ["Nama Alat", "Cooling Water Pump & Chilled Water Pump"],
+          ["Lokasi Referensi", "Basement"],
+          ["Jumlah", "4 unit"],
+          ["Motor", "Marathon (CMG)"],
+          ["Daya CWP", "45 kW"],
+          ["Kapasitas CWP", "732 USGPM"],
+          ["Daya CHWP", "15 kW"],
+          ["Kapasitas CHWP", "566 USGPM"]
+        ]
+      },
+      {
+        id: "cooling-tower",
+        name: "Cooling Tower",
+        icon: "⌁",
+        summary: "Cooling Tower 732 USGPM dengan motor fan di Roof.",
+        assetCount: "1 sistem",
+        profile: "coolingTower",
+        specs: [
+          ["Kapasitas", "732 USGPM"],
+          ["Kapasitas Air", "23 m³"],
+          ["Lokasi Referensi", "Roof"],
+          ["Motor Fan", "Electric Motor"],
+          ["Type Motor", "MS132S-4 B3"],
+          ["Daya Motor", "5,5 kW"],
+          ["Tegangan", "380 / 660 Volt"],
+          ["Putaran", "1450 RPM"]
+        ]
+      },
+      {
+        id: "ahu",
+        name: "AHU",
+        icon: "▤",
+        summary: "Double Skin Handling Unit untuk lantai 1 sampai 8.",
+        assetCount: "8 unit",
+        profile: "ahu",
+        specs: [
+          ["Nama Alat", "Double Skin Handling Unit"],
+          ["Merek", "MCQUAY / MECQUAY"],
+          ["Lokasi Referensi", "Lantai 1 - 8"],
+          ["Jumlah", "8 unit"],
+          ["Model", "MDW180HR / MDW150HR / MDW250HR"],
+          ["Aliran Udara", "14.280 - 24.500 m³/h"],
+          ["Tegangan", "380 Volt"],
+          ["Frekuensi", "50 Hz"]
+        ]
+      },
+      {
+        id: "vrv",
+        name: "VRV",
+        icon: "◎",
+        summary: "DAIKIN VRV III dan VRV III Multi.",
+        assetCount: "2 sistem",
+        profile: "dxAc",
+        specs: [
+          ["Nama Alat", "Split Duct VRV III / VRV III Multi"],
+          ["Merek", "DAIKIN"],
+          ["Kapasitas", "12 PK / 8 PK"],
+          ["Lokasi Outdoor", "Roof"],
+          ["Tegangan", "380 - 415 Volt"],
+          ["Refrigerant", "R410"],
+          ["Area Indoor", "Basement dan lantai 1 - 8"],
+          ["Daya Cooling", "5,24 - 14,2 kW"]
+        ]
+      },
+      {
+        id: "cassette",
+        name: "Cassette",
+        icon: "⊞",
+        summary: "DAIKIN Cassette 3 PK untuk area Basement.",
+        assetCount: "2 set",
+        profile: "dxAc",
+        specs: [
+          ["Merek / Tipe", "DAIKIN Cassette 3 PK"],
+          ["Model", "R18NUV14"],
+          ["Lokasi Referensi", "Basement"],
+          ["Jumlah", "2 set"],
+          ["Tegangan", "220 - 240 Volt"],
+          ["Arus", "20 Ampere"],
+          ["Refrigerant", "R22"],
+          ["Daya Cooling", "5,28 kW (18.000 Btu)"]
+        ]
+      },
+      {
+        id: "split-wall",
+        name: "Split Wall",
+        icon: "▱",
+        summary: "DAIKIN Split Wall 2 PK di Roof dan Basement.",
+        assetCount: "2 lokasi",
+        profile: "dxAc",
+        specs: [
+          ["Merek / Tipe", "DAIKIN Split Wall 2 PK"],
+          ["Lokasi Referensi", "Roof dan Basement"],
+          ["Jumlah", "3 set per lokasi"],
+          ["Model", "RXQ12PAY12 / RE50KV14"],
+          ["Tegangan", "220 - 240 Volt"],
+          ["Arus", "10 - 12 Ampere"],
+          ["Refrigerant", "R410 / R22"],
+          ["Daya Cooling", "5,28 kW (18.000 Btu)"]
+        ]
+      }
+    ];
+
+    const QUESTION_PROFILES = {
+      chiller: {
+        point: "kompresor, evaporator, kondensor, dan separator",
+        measurement: "Catat tekanan, temperatur, arus, atau parameter operasi aktual",
+        cleaning: "permukaan unit, panel, area kondensor, dan area sekitar chiller"
+      },
+      pump: {
+        point: "motor, pump housing, seal, bearing, dan sambungan pipa",
+        measurement: "Catat arus motor, tekanan, getaran, atau debit aktual",
+        cleaning: "motor, pump housing, strainer, base frame, dan area pompa"
+      },
+      coolingTower: {
+        point: "motor fan, fan blade, basin, fill, dan aliran air",
+        measurement: "Catat arus motor, temperatur air, atau kondisi aliran aktual",
+        cleaning: "basin, fill, nozzle, fan, dan area Cooling Tower"
+      },
+      ahu: {
+        point: "filter, fan, belt, motor, coil, dan drain pan",
+        measurement: "Catat arus motor, airflow, temperatur supply, atau kondisi belt",
+        cleaning: "filter, coil, fan, drain pan, dan jalur kondensat"
+      },
+      dxAc: {
+        point: "unit indoor, unit outdoor, refrigerant, fan, dan drainase",
+        measurement: "Catat arus, temperatur supply/return, tekanan, atau kondisi refrigerant",
+        cleaning: "filter, evaporator, blower, kondensor, dan jalur drainase"
+      }
+    };
 
     let currentUser = null;
     let currentFloor = null;
     let currentRoom = null;
-    let currentChoices = {};
+    let currentUtility = null;
+    let currentMaintenance = null;
 
     const loginPage = document.getElementById("loginPage");
     const dashboardPage = document.getElementById("dashboardPage");
@@ -1130,9 +1583,21 @@
     const sidebar = document.getElementById("sidebar");
     const toast = document.getElementById("toast");
 
+    function encodePart(value) {
+      return encodeURIComponent(value);
+    }
+
+    function decodePart(value) {
+      return decodeURIComponent(value);
+    }
+
+    function getUtility(id) {
+      return UTILITIES.find((utility) => utility.id === id);
+    }
+
     function setTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("utm-theme", theme);
+      storage.setItem("utm-theme", theme);
 
       document.querySelectorAll(".theme-toggle").forEach((button) => {
         button.textContent = theme === "dark" ? "☀" : "☾";
@@ -1141,7 +1606,8 @@
 
     document.querySelectorAll(".theme-toggle").forEach((button) => {
       button.addEventListener("click", () => {
-        const current = document.documentElement.getAttribute("data-theme") || "light";
+        const current =
+          document.documentElement.getAttribute("data-theme") || "light";
         setTheme(current === "dark" ? "light" : "dark");
       });
     });
@@ -1150,15 +1616,24 @@
       toast.textContent = message;
       toast.classList.remove("hidden");
       clearTimeout(window.toastTimer);
-      window.toastTimer = setTimeout(() => toast.classList.add("hidden"), 2800);
+      window.toastTimer = setTimeout(
+        () => toast.classList.add("hidden"),
+        2800
+      );
     }
 
     function applyUserTheme(userKey) {
       const user = USERS[userKey];
 
       document.documentElement.style.setProperty("--accent", user.accent);
-      document.documentElement.style.setProperty("--accent-rgb", user.accentRgb);
-      document.documentElement.style.setProperty("--accent-dark", user.accentDark);
+      document.documentElement.style.setProperty(
+        "--accent-rgb",
+        user.accentRgb
+      );
+      document.documentElement.style.setProperty(
+        "--accent-dark",
+        user.accentDark
+      );
 
       document.getElementById("dashboardTitle").textContent = user.title;
       document.getElementById("sideBrand").textContent = user.title;
@@ -1169,22 +1644,75 @@
     }
 
     function navigate(route) {
-      window.location.hash = route;
+      window.location.hash = `#/${route}`;
     }
 
     function parseRoute() {
       const hash = window.location.hash.replace(/^#\/?/, "");
       const parts = hash.split("/").filter(Boolean);
 
-      if (!parts.length) return { page: "floors" };
-      if (parts[0] === "floor" && parts[1]) {
-        return { page: "rooms", floor: Number(parts[1]) };
+      if (!parts.length || parts[0] === "floors") {
+        return { page: "floors" };
       }
+
+      if (parts[0] === "floor" && parts[1]) {
+        return {
+          page: "rooms",
+          floor: Number(parts[1])
+        };
+      }
+
       if (parts[0] === "room" && parts[1] && parts[2]) {
         return {
           page: "utilities",
           floor: Number(parts[1]),
-          room: decodeURIComponent(parts.slice(2).join("/"))
+          room: decodePart(parts[2])
+        };
+      }
+
+      if (
+        parts[0] === "utility" &&
+        parts[1] &&
+        parts[2] &&
+        parts[3]
+      ) {
+        return {
+          page: "utility",
+          floor: Number(parts[1]),
+          room: decodePart(parts[2]),
+          utilityId: decodePart(parts[3])
+        };
+      }
+
+      if (
+        parts[0] === "checklist" &&
+        parts[1] &&
+        parts[2] &&
+        parts[3] &&
+        parts[4]
+      ) {
+        return {
+          page: "checklist",
+          floor: Number(parts[1]),
+          room: decodePart(parts[2]),
+          utilityId: decodePart(parts[3]),
+          maintenance: parts[4].toUpperCase()
+        };
+      }
+
+      if (
+        parts[0] === "submitted" &&
+        parts[1] &&
+        parts[2] &&
+        parts[3] &&
+        parts[4]
+      ) {
+        return {
+          page: "submitted",
+          floor: Number(parts[1]),
+          room: decodePart(parts[2]),
+          utilityId: decodePart(parts[3]),
+          maintenance: parts[4].toUpperCase()
         };
       }
 
@@ -1194,20 +1722,69 @@
     function breadcrumb(items) {
       return `
         <div class="breadcrumb">
-          ${items.map((item, index) => {
-            const separator = index === 0 ? "" : "<span>›</span>";
-            if (item.action) {
-              return `${separator}<button type="button" data-action="${item.action}">${item.label}</button>`;
-            }
-            return `${separator}<span>${item.label}</span>`;
-          }).join("")}
+          ${items
+            .map((item, index) => {
+              const separator = index === 0 ? "" : "<span>›</span>";
+
+              if (item.route) {
+                return `${separator}<button type="button" data-route="${item.route}">${item.label}</button>`;
+              }
+
+              return `${separator}<span>${item.label}</span>`;
+            })
+            .join("")}
         </div>
       `;
+    }
+
+    function bindRouteButtons() {
+      document.querySelectorAll("[data-route]").forEach((button) => {
+        button.addEventListener("click", () => {
+          navigate(button.dataset.route);
+        });
+      });
+    }
+
+    function getLastUpdateKey(floor, room, utilityId) {
+      return [
+        "utm-last-update",
+        currentUser,
+        floor,
+        room,
+        utilityId
+      ].join(":");
+    }
+
+    function getLastUpdate(floor, room, utilityId) {
+      return storage.getItem(
+        getLastUpdateKey(floor, room, utilityId)
+      );
+    }
+
+    function formatDateTime(value) {
+      if (!value) return "Belum pernah diperbarui";
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "Belum pernah diperbarui";
+      }
+
+      return new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      }).format(date);
     }
 
     function renderFloorsPage() {
       currentFloor = null;
       currentRoom = null;
+      currentUtility = null;
+      currentMaintenance = null;
 
       appContent.innerHTML = `
         <section class="page-head">
@@ -1229,8 +1806,8 @@
             <strong>2</strong>
           </article>
           <article class="stat-card">
-            <span>Utility per ruang</span>
-            <strong>5</strong>
+            <span>Kategori utility</span>
+            <strong>${UTILITIES.length}</strong>
           </article>
         </section>
 
@@ -1238,14 +1815,20 @@
           <div class="card-head">
             <div>
               <h4>Daftar Lantai</h4>
-              <p>Klik lantai untuk masuk ke halaman berikutnya.</p>
+              <p>Klik lantai untuk membuka pilihan ruang.</p>
             </div>
           </div>
+
           <div class="floor-grid">
             ${Array.from({ length: 17 }, (_, index) => {
               const floor = index + 1;
+
               return `
-                <button class="floor-card" type="button" data-floor="${floor}">
+                <button
+                  class="floor-card"
+                  type="button"
+                  data-route="floor/${floor}"
+                >
                   <span class="floor-number">${floor}</span>
                   <strong>Lantai ${floor}</strong>
                   <small>2 ruang tersedia</small>
@@ -1256,26 +1839,24 @@
         </section>
       `;
 
-      document.querySelectorAll("[data-floor]").forEach((button) => {
-        button.addEventListener("click", () => {
-          navigate(`floor/${button.dataset.floor}`);
-        });
-      });
+      bindRouteButtons();
     }
 
     function renderRoomsPage(floor) {
       currentFloor = floor;
       currentRoom = null;
+      currentUtility = null;
+      currentMaintenance = null;
 
       appContent.innerHTML = `
         ${breadcrumb([
-          { label: "Daftar Lantai", action: "floors" },
+          { label: "Daftar Lantai", route: "floors" },
           { label: `Lantai ${floor}` }
         ])}
 
         <section class="page-head">
           <h1>Lantai ${floor}</h1>
-          <p>Pilih ruang untuk membuka halaman utility.</p>
+          <p>Pilih ruang untuk membuka daftar utility.</p>
         </section>
 
         <section class="card">
@@ -1284,148 +1865,635 @@
               <h4>Pilih Ruang</h4>
               <p>Dua ruang tersedia pada Lantai ${floor}.</p>
             </div>
-            <button class="back-btn" type="button" data-action="floors">← Kembali</button>
+
+            <button
+              class="back-btn"
+              type="button"
+              data-route="floors"
+            >
+              ← Kembali
+            </button>
           </div>
 
           <div class="room-grid">
-            ${ROOMS.map((room) => `
-              <button class="room-card" type="button" data-room="${room.name}">
-                <span class="room-icon">${room.icon}</span>
-                <strong>${room.name}</strong>
-                <small>Lantai ${floor}</small>
-                <p>${room.description}</p>
-              </button>
-            `).join("")}
+            ${ROOMS.map(
+              (room) => `
+                <button
+                  class="room-card"
+                  type="button"
+                  data-route="room/${floor}/${encodePart(room.name)}"
+                >
+                  <span class="room-icon">${room.icon}</span>
+                  <strong>${room.name}</strong>
+                  <small>Lantai ${floor}</small>
+                  <p>${room.description}</p>
+                </button>
+              `
+            ).join("")}
           </div>
         </section>
       `;
 
-      bindNavigationActions();
-
-      document.querySelectorAll("[data-room]").forEach((button) => {
-        button.addEventListener("click", () => {
-          navigate(`room/${floor}/${encodeURIComponent(button.dataset.room)}`);
-        });
-      });
-    }
-
-    function getStorageKey() {
-      return `utm-selection:${currentUser}:floor-${currentFloor}:${currentRoom}`;
-    }
-
-    function loadSavedChoices() {
-      const saved = localStorage.getItem(getStorageKey());
-      currentChoices = saved ? JSON.parse(saved) : {};
+      bindRouteButtons();
     }
 
     function renderUtilitiesPage(floor, room) {
       currentFloor = floor;
       currentRoom = room;
-      loadSavedChoices();
+      currentUtility = null;
+      currentMaintenance = null;
 
       appContent.innerHTML = `
         ${breadcrumb([
-          { label: "Daftar Lantai", action: "floors" },
-          { label: `Lantai ${floor}`, action: "rooms" },
+          { label: "Daftar Lantai", route: "floors" },
+          { label: `Lantai ${floor}`, route: `floor/${floor}` },
           { label: room }
         ])}
 
         <section class="page-head">
           <h1>${room}</h1>
-          <p>Lantai ${floor} · Pilih PM atau HC untuk setiap utility.</p>
+          <p>
+            Lantai ${floor} · Pilih utility untuk melihat spesifikasi,
+            last update, dan pekerjaan PM/HC.
+          </p>
         </section>
 
         <section class="card">
           <div class="card-head">
             <div>
-              <h4>Utility ${room}</h4>
-              <p>Utility A sampai E tersedia pada halaman ini.</p>
+              <h4>Daftar Utility AC</h4>
+              <p>Data spesifikasi diringkas dari workbook 9. AC.xlsx.</p>
             </div>
-            <button class="back-btn" type="button" data-action="rooms">← Kembali</button>
+
+            <button
+              class="back-btn"
+              type="button"
+              data-route="floor/${floor}"
+            >
+              ← Kembali
+            </button>
           </div>
 
-          <div class="utility-list">
-            ${UTILITIES.map((utility) => `
-              <div class="utility-row">
-                <div class="utility-letter">${utility}</div>
-                <div class="utility-info">
-                  <strong>Utility ${utility}</strong>
-                  <small>Pilih jenis pekerjaan</small>
-                </div>
-                <div class="choice-group">
-                  <button class="choice-btn ${currentChoices[utility] === "PM" ? "selected" : ""}"
-                          type="button"
-                          aria-pressed="${currentChoices[utility] === "PM"}"
-                          data-utility="${utility}"
-                          data-choice="PM">PM</button>
-                  <button class="choice-btn ${currentChoices[utility] === "HC" ? "selected" : ""}"
-                          type="button"
-                          aria-pressed="${currentChoices[utility] === "HC"}"
-                          data-utility="${utility}"
-                          data-choice="HC">HC</button>
-                </div>
-              </div>
-            `).join("")}
-          </div>
+          <div class="utility-grid">
+            ${UTILITIES.map((utility) => {
+              const updatedAt = getLastUpdate(
+                floor,
+                room,
+                utility.id
+              );
 
-          <div class="save-bar">
-            <span id="selectionSummary">${getSelectionSummary()}</span>
-            <button id="saveButton" class="save-btn" type="button">Simpan Pilihan</button>
+              return `
+                <button
+                  class="utility-card"
+                  type="button"
+                  data-route="utility/${floor}/${encodePart(room)}/${encodePart(
+                    utility.id
+                  )}"
+                >
+                  <span class="utility-icon">${utility.icon}</span>
+                  <strong>${utility.name}</strong>
+                  <small>${utility.assetCount}</small>
+                  <p>${utility.summary}</p>
+                  <span class="last-update">
+                    <b>Last updated</b><br />
+                    ${formatDateTime(updatedAt)}
+                  </span>
+                </button>
+              `;
+            }).join("")}
           </div>
         </section>
       `;
 
-      bindNavigationActions();
-
-      document.querySelectorAll(".choice-btn").forEach((button) => {
-        button.addEventListener("click", () => {
-          const utility = button.dataset.utility;
-          const choice = button.dataset.choice;
-          const row = button.closest(".utility-row");
-
-          currentChoices[utility] = choice;
-
-          row.querySelectorAll(".choice-btn").forEach((optionButton) => {
-            const isSelected = optionButton.dataset.choice === choice;
-            optionButton.classList.toggle("selected", isSelected);
-            optionButton.setAttribute("aria-pressed", String(isSelected));
-          });
-
-          document.getElementById("selectionSummary").textContent = getSelectionSummary();
-        });
-      });
-
-      document.getElementById("saveButton").addEventListener("click", saveChoices);
+      bindRouteButtons();
     }
 
-    function getSelectionSummary() {
-      const selectedCount = Object.keys(currentChoices).length;
-      return selectedCount
-        ? `${selectedCount} dari 5 utility sudah dipilih.`
-        : "Belum ada utility yang dipilih.";
-    }
+    function renderUtilityPage(floor, room, utilityId) {
+      const utility = getUtility(utilityId);
 
-    function saveChoices() {
-      const selectedCount = Object.keys(currentChoices).length;
-
-      if (!selectedCount) {
-        showToast("Belum ada utility yang dipilih.");
+      if (!utility) {
+        navigate(`room/${floor}/${encodePart(room)}`);
         return;
       }
 
-      localStorage.setItem(getStorageKey(), JSON.stringify(currentChoices));
-      showToast(`Pilihan Lantai ${currentFloor}, ${currentRoom} berhasil disimpan.`);
+      currentFloor = floor;
+      currentRoom = room;
+      currentUtility = utility;
+      currentMaintenance = null;
+
+      const updatedAt = getLastUpdate(floor, room, utility.id);
+
+      appContent.innerHTML = `
+        ${breadcrumb([
+          { label: "Daftar Lantai", route: "floors" },
+          { label: `Lantai ${floor}`, route: `floor/${floor}` },
+          {
+            label: room,
+            route: `room/${floor}/${encodePart(room)}`
+          },
+          { label: utility.name }
+        ])}
+
+        <section class="page-head">
+          <h1>${utility.name}</h1>
+          <p>
+            Lantai ${floor} · ${room} · Lihat spesifikasi dan pilih jenis pekerjaan.
+          </p>
+        </section>
+
+        <section class="detail-layout">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h4>Spesifikasi Utility</h4>
+                <p>Ringkasan informasi dari file inventaris AC.</p>
+              </div>
+
+              <button
+                class="back-btn"
+                type="button"
+                data-route="room/${floor}/${encodePart(room)}"
+              >
+                ← Kembali
+              </button>
+            </div>
+
+            <div class="spec-list">
+              ${utility.specs
+                .map(
+                  ([label, value]) => `
+                    <div class="spec-item">
+                      <span>${label}</span>
+                      <strong>${value}</strong>
+                    </div>
+                  `
+                )
+                .join("")}
+            </div>
+
+            <p class="source-note">
+              Sumber spesifikasi: workbook <strong>9. AC.xlsx</strong>.
+              Data pada halaman ini merupakan ringkasan kategori peralatan.
+            </p>
+          </article>
+
+          <aside class="card">
+            <div class="updated-panel">
+              <span>Last updated</span>
+              <strong>${formatDateTime(updatedAt)}</strong>
+            </div>
+          </aside>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <h4>Pilih Jenis Pekerjaan</h4>
+              <p>PM dan HC memiliki checklist pertanyaan masing-masing.</p>
+            </div>
+          </div>
+
+          <div class="maintenance-grid">
+            <button
+              class="maintenance-card"
+              type="button"
+              data-route="checklist/${floor}/${encodePart(room)}/${encodePart(
+                utility.id
+              )}/PM"
+            >
+              <span class="maintenance-icon">PM</span>
+              <strong>Preventive Maintenance</strong>
+              <p>
+                Pemeriksaan kondisi operasi, parameter, kelistrikan,
+                suara, getaran, dan catatan teknisi.
+              </p>
+            </button>
+
+            <button
+              class="maintenance-card"
+              type="button"
+              data-route="checklist/${floor}/${encodePart(room)}/${encodePart(
+                utility.id
+              )}/HC"
+            >
+              <span class="maintenance-icon">HC</span>
+              <strong>Heavy Cleaning</strong>
+              <p>
+                Pemeriksaan kebersihan komponen, drainase, area unit,
+                dan hasil pembersihan.
+              </p>
+            </button>
+          </div>
+        </section>
+      `;
+
+      bindRouteButtons();
     }
 
-    function bindNavigationActions() {
-      document.querySelectorAll("[data-action]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const action = button.dataset.action;
+    function createQuestions(utility, maintenance) {
+      const profile = QUESTION_PROFILES[utility.profile];
 
-          if (action === "floors") navigate("floors");
-          if (action === "rooms") navigate(`floor/${currentFloor}`);
-        });
-      });
+      if (maintenance === "PM") {
+        return [
+          {
+            id: "operator",
+            label: "Nama teknisi / operator",
+            type: "text",
+            placeholder: "Masukkan nama teknisi",
+            required: true
+          },
+          {
+            id: "operating_condition",
+            label: `Bagaimana kondisi operasional ${profile.point}?`,
+            type: "select",
+            options: [
+              "",
+              "Normal",
+              "Beroperasi tetapi perlu perhatian",
+              "Tidak normal / berhenti"
+            ],
+            required: true
+          },
+          {
+            id: "abnormal_condition",
+            label:
+              "Apakah ditemukan suara, getaran, kebocoran, panas, atau bau abnormal?",
+            type: "select",
+            options: ["", "Tidak ditemukan", "Ditemukan"],
+            required: true
+          },
+          {
+            id: "measurement",
+            label: profile.measurement,
+            type: "text",
+            placeholder: "Contoh: 380 V, 12 A, 7 bar, 18°C",
+            required: true
+          },
+          {
+            id: "electrical_condition",
+            label: "Bagaimana kondisi panel dan koneksi kelistrikan?",
+            type: "select",
+            options: [
+              "",
+              "Baik",
+              "Perlu pengencangan",
+              "Perlu perbaikan"
+            ],
+            required: true
+          },
+          {
+            id: "follow_up",
+            label: "Apakah diperlukan tindak lanjut?",
+            type: "select",
+            options: ["", "Tidak", "Ya, terjadwal", "Ya, mendesak"],
+            required: true
+          },
+          {
+            id: "notes",
+            label: "Catatan PM",
+            type: "textarea",
+            placeholder:
+              "Tuliskan temuan, tindakan yang dilakukan, dan rekomendasi.",
+            required: true
+          }
+        ];
+      }
+
+      return [
+        {
+          id: "operator",
+          label: "Nama teknisi / operator",
+          type: "text",
+          placeholder: "Masukkan nama teknisi",
+          required: true
+        },
+        {
+          id: "cleaning_completed",
+          label: `Apakah ${profile.cleaning} sudah dibersihkan?`,
+          type: "select",
+          options: ["", "Sudah", "Belum selesai"],
+          required: true
+        },
+        {
+          id: "dirt_condition",
+          label:
+            "Bagaimana kondisi debu, kerak, oli, lumut, atau kotoran setelah pembersihan?",
+          type: "select",
+          options: [
+            "",
+            "Bersih",
+            "Masih ada sedikit kotoran",
+            "Perlu pembersihan ulang"
+          ],
+          required: true
+        },
+        {
+          id: "drain_condition",
+          label: "Bagaimana kondisi drainase dan area sekitar unit?",
+          type: "select",
+          options: [
+            "",
+            "Bersih dan lancar",
+            "Sebagian tersumbat",
+            "Tersumbat / perlu perbaikan"
+          ],
+          required: true
+        },
+        {
+          id: "material",
+          label: "Material atau chemical yang digunakan",
+          type: "text",
+          placeholder: "Contoh: air, coil cleaner, kain, vacuum",
+          required: true
+        },
+        {
+          id: "final_condition",
+          label: "Bagaimana kondisi unit setelah HC selesai?",
+          type: "select",
+          options: [
+            "",
+            "Siap dioperasikan",
+            "Perlu pemeriksaan lanjutan",
+            "Tidak dapat dioperasikan"
+          ],
+          required: true
+        },
+        {
+          id: "notes",
+          label: "Catatan HC",
+          type: "textarea",
+          placeholder:
+            "Tuliskan bagian yang dibersihkan, temuan, dan rekomendasi.",
+          required: true
+        }
+      ];
+    }
+
+    function renderQuestionField(question) {
+      const requiredMark = question.required
+        ? '<span class="required">*</span>'
+        : "";
+
+      if (question.type === "select") {
+        return `
+          <div class="question">
+            <label for="${question.id}">
+              ${question.label} ${requiredMark}
+            </label>
+            <select
+              id="${question.id}"
+              name="${question.id}"
+              ${question.required ? "required" : ""}
+            >
+              ${question.options
+                .map(
+                  (option, index) => `
+                    <option value="${option}" ${
+                      index === 0 ? "disabled selected" : ""
+                    }>
+                      ${option || "Pilih jawaban"}
+                    </option>
+                  `
+                )
+                .join("")}
+            </select>
+          </div>
+        `;
+      }
+
+      if (question.type === "textarea") {
+        return `
+          <div class="question">
+            <label for="${question.id}">
+              ${question.label} ${requiredMark}
+            </label>
+            <textarea
+              id="${question.id}"
+              name="${question.id}"
+              placeholder="${question.placeholder || ""}"
+              ${question.required ? "required" : ""}
+            ></textarea>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="question">
+          <label for="${question.id}">
+            ${question.label} ${requiredMark}
+          </label>
+          <input
+            id="${question.id}"
+            name="${question.id}"
+            type="${question.type || "text"}"
+            placeholder="${question.placeholder || ""}"
+            ${question.required ? "required" : ""}
+          />
+        </div>
+      `;
+    }
+
+    function renderChecklistPage(
+      floor,
+      room,
+      utilityId,
+      maintenance
+    ) {
+      const utility = getUtility(utilityId);
+
+      if (!utility || !["PM", "HC"].includes(maintenance)) {
+        navigate(`room/${floor}/${encodePart(room)}`);
+        return;
+      }
+
+      currentFloor = floor;
+      currentRoom = room;
+      currentUtility = utility;
+      currentMaintenance = maintenance;
+
+      const questions = createQuestions(utility, maintenance);
+
+      appContent.innerHTML = `
+        ${breadcrumb([
+          { label: "Daftar Lantai", route: "floors" },
+          { label: `Lantai ${floor}`, route: `floor/${floor}` },
+          {
+            label: room,
+            route: `room/${floor}/${encodePart(room)}`
+          },
+          {
+            label: utility.name,
+            route: `utility/${floor}/${encodePart(room)}/${encodePart(
+              utility.id
+            )}`
+          },
+          { label: maintenance }
+        ])}
+
+        <section class="page-head">
+          <h1>${maintenance} · ${utility.name}</h1>
+          <p>
+            Lantai ${floor} · ${room} · Seluruh pertanyaan bertanda bintang wajib dijawab.
+          </p>
+        </section>
+
+        <form id="checklistForm" class="card" novalidate>
+          <div class="card-head">
+            <div>
+              <h4>
+                ${
+                  maintenance === "PM"
+                    ? "Checklist Preventive Maintenance"
+                    : "Checklist Heavy Cleaning"
+                }
+              </h4>
+              <p>
+                Jawaban akan dicatat sebagai pembaruan terbaru untuk utility ini.
+              </p>
+            </div>
+
+            <button
+              class="back-btn"
+              type="button"
+              data-route="utility/${floor}/${encodePart(room)}/${encodePart(
+                utility.id
+              )}"
+            >
+              ← Kembali
+            </button>
+          </div>
+
+          <div class="checklist">
+            ${questions.map(renderQuestionField).join("")}
+          </div>
+
+          <div class="form-actions">
+            <p>
+              Submit akan memperbarui waktu <strong>Last updated</strong>.
+            </p>
+            <button class="submit-btn" type="submit">
+              Submit ${maintenance}
+            </button>
+          </div>
+        </form>
+      `;
+
+      bindRouteButtons();
+
+      document
+        .getElementById("checklistForm")
+        .addEventListener("submit", submitChecklist);
+    }
+
+    function submitChecklist(event) {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        showToast("Masih ada pertanyaan yang belum dijawab.");
+        return;
+      }
+
+      const formData = new FormData(form);
+      const answers = {};
+
+      for (const [key, value] of formData.entries()) {
+        answers[key] = value;
+      }
+
+      const submittedAt = new Date().toISOString();
+
+      const submission = {
+        user: currentUser,
+        building: "UTM",
+        floor: currentFloor,
+        room: currentRoom,
+        utilityId: currentUtility.id,
+        utility: currentUtility.name,
+        maintenance: currentMaintenance,
+        answers,
+        submittedAt
+      };
+
+      const logKey = "utm-excel-submissions";
+      const existingLog = JSON.parse(
+        storage.getItem(logKey) || "[]"
+      );
+
+      existingLog.push(submission);
+      storage.setItem(logKey, JSON.stringify(existingLog));
+
+      storage.setItem(
+        getLastUpdateKey(
+          currentFloor,
+          currentRoom,
+          currentUtility.id
+        ),
+        submittedAt
+      );
+
+      storage.setItem(
+        "utm-last-submission",
+        JSON.stringify(submission)
+      );
+
+      navigate(
+        `submitted/${currentFloor}/${encodePart(
+          currentRoom
+        )}/${encodePart(currentUtility.id)}/${currentMaintenance}`
+      );
+    }
+
+    function renderSubmittedPage(
+      floor,
+      room,
+      utilityId,
+      maintenance
+    ) {
+      const utility = getUtility(utilityId);
+
+      if (!utility) {
+        navigate(`room/${floor}/${encodePart(room)}`);
+        return;
+      }
+
+      currentFloor = floor;
+      currentRoom = room;
+      currentUtility = utility;
+      currentMaintenance = maintenance;
+
+      const updatedAt = getLastUpdate(floor, room, utility.id);
+
+      appContent.innerHTML = `
+        <div class="success-wrap">
+          <section class="success-card">
+            <div class="success-icon">✓</div>
+            <h1>Dikirim ke Excel</h1>
+            <p>
+              Data ${maintenance} untuk ${utility.name} berhasil dicatat.
+              Waktu <strong>Last updated</strong> sudah diperbarui.
+            </p>
+
+            <div class="submission-info">
+              <strong>Lantai ${floor}</strong> · ${room}<br />
+              ${utility.name} · ${maintenance}<br />
+              Last updated: <strong>${formatDateTime(updatedAt)}</strong>
+            </div>
+
+            <button
+              class="return-btn"
+              type="button"
+              data-route="room/${floor}/${encodePart(room)}"
+            >
+              Kembali ke Ruangan
+            </button>
+          </section>
+        </div>
+      `;
+
+      bindRouteButtons();
     }
 
     function renderRoute() {
@@ -1433,11 +2501,36 @@
 
       const route = parseRoute();
 
-      if (route.page === "floors") renderFloorsPage();
-      if (route.page === "rooms") renderRoomsPage(route.floor);
-      if (route.page === "utilities") renderUtilitiesPage(route.floor, route.room);
+      if (route.page === "floors") {
+        renderFloorsPage();
+      } else if (route.page === "rooms") {
+        renderRoomsPage(route.floor);
+      } else if (route.page === "utilities") {
+        renderUtilitiesPage(route.floor, route.room);
+      } else if (route.page === "utility") {
+        renderUtilityPage(
+          route.floor,
+          route.room,
+          route.utilityId
+        );
+      } else if (route.page === "checklist") {
+        renderChecklistPage(
+          route.floor,
+          route.room,
+          route.utilityId,
+          route.maintenance
+        );
+      } else if (route.page === "submitted") {
+        renderSubmittedPage(
+          route.floor,
+          route.room,
+          route.utilityId,
+          route.maintenance
+        );
+      }
 
       sidebar.classList.remove("open");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     loginForm.addEventListener("submit", (event) => {
@@ -1451,8 +2544,14 @@
       const username = usernameInput.value.trim();
       const password = passwordInput.value;
 
-      if (!username) usernameError.textContent = "Username wajib diisi.";
-      if (!password) passwordError.textContent = "Password wajib diisi.";
+      if (!username) {
+        usernameError.textContent = "Username wajib diisi.";
+      }
+
+      if (!password) {
+        passwordError.textContent = "Password wajib diisi.";
+      }
+
       if (!username || !password) return;
 
       const user = USERS[username];
@@ -1464,7 +2563,7 @@
       }
 
       currentUser = username;
-      localStorage.setItem("utm-session-user", username);
+      storage.setItem("utm-session-user", username);
       applyUserTheme(username);
 
       loginPage.classList.add("hidden");
@@ -1475,34 +2574,46 @@
       showToast(`Login berhasil sebagai ${username}.`);
     });
 
-    document.getElementById("passwordToggle").addEventListener("click", () => {
-      const hidden = passwordInput.type === "password";
-      passwordInput.type = hidden ? "text" : "password";
-      document.getElementById("passwordToggle").textContent = hidden ? "◎" : "◉";
-    });
+    document
+      .getElementById("passwordToggle")
+      .addEventListener("click", () => {
+        const hidden = passwordInput.type === "password";
+        passwordInput.type = hidden ? "text" : "password";
+        document.getElementById("passwordToggle").textContent = hidden
+          ? "◎"
+          : "◉";
+      });
 
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      localStorage.removeItem("utm-session-user");
-      currentUser = null;
-      passwordInput.value = "";
-      dashboardPage.classList.add("hidden");
-      loginPage.classList.remove("hidden");
-      sidebar.classList.remove("open");
-      window.location.hash = "";
-      showToast("Kamu sudah keluar dari dashboard.");
-    });
+    document
+      .getElementById("logoutButton")
+      .addEventListener("click", () => {
+        storage.removeItem("utm-session-user");
+        currentUser = null;
+        passwordInput.value = "";
+        dashboardPage.classList.add("hidden");
+        loginPage.classList.remove("hidden");
+        sidebar.classList.remove("open");
+        window.location.hash = "";
+        showToast("Kamu sudah keluar dari dashboard.");
+      });
 
-    document.getElementById("menuButton").addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-    });
+    document
+      .getElementById("menuButton")
+      .addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+      });
 
-    document.getElementById("navHome").addEventListener("click", () => {
-      navigate("floors");
-    });
+    document
+      .getElementById("navHome")
+      .addEventListener("click", () => {
+        navigate("floors");
+      });
 
-    document.getElementById("navCurrent").addEventListener("click", () => {
-      renderRoute();
-    });
+    document
+      .getElementById("navCurrent")
+      .addEventListener("click", () => {
+        renderRoute();
+      });
 
     document.addEventListener("click", (event) => {
       const menuButton = document.getElementById("menuButton");
@@ -1520,8 +2631,11 @@
     window.addEventListener("hashchange", renderRoute);
 
     function initialize() {
-      const savedTheme = localStorage.getItem("utm-theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const savedTheme = storage.getItem("utm-theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
       setTheme(savedTheme || (prefersDark ? "dark" : "light"));
 
       document.getElementById("currentDate").textContent =
@@ -1532,7 +2646,7 @@
           year: "numeric"
         }).format(new Date());
 
-      const savedUser = localStorage.getItem("utm-session-user");
+      const savedUser = storage.getItem("utm-session-user");
 
       if (savedUser && USERS[savedUser]) {
         currentUser = savedUser;
@@ -1540,7 +2654,10 @@
         loginPage.classList.add("hidden");
         dashboardPage.classList.remove("hidden");
 
-        if (!window.location.hash) navigate("floors");
+        if (!window.location.hash) {
+          navigate("floors");
+        }
+
         renderRoute();
       }
     }
